@@ -8,9 +8,15 @@ wss.on('connection', function connection(ws){
     
     ws.send('Iniciando o servidor. ChatON!');
 
+  
     ws.on('message', function message(dados){
         console.log(`o servidor recebeu essa mensagem: %s`, dados);
-        ws.send(dados);
+        
+        wss.clients.forEach(cleinte => {
+            cleinte.send(dados.toString());
+        });
+        
         console.log("o servidor repasou a msg")
+
     });
 })
