@@ -12,9 +12,7 @@ wss.on('connection', function connection(ws){
         tipo: "historico",
         mensagens: mensagensHistorico
     };
-    
-    ws.send('Iniciando o servidor. Chat ON!');
-    
+        
     
     ws.on('message', function message(dados){
         console.log(`o servidor recebeu essa mensagem: %s`, dados);
