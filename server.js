@@ -17,8 +17,9 @@ wss.on('connection', function connection(ws){
     ws.on('message', function message(dados){
         console.log(`o servidor recebeu essa mensagem: %s`, dados);
         
-        if(dados.toString() == "/limpar"){
+        if(dados.toString().endsWith("/limpar")){
             mensagensHistorico.length = 0
+            return;
         }
         
         mensagensHistorico.push(dados.toString())
