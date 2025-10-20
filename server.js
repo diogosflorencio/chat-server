@@ -6,6 +6,17 @@ let mensagensHistorico = []
 wss.on('connection', function connection(ws){
     ws.on('error', console.error);
 
+    // implemetação de ping pong padrão do websocket pra manter a conexão dos clientes com o servidor.
+    ws.onopen = function () {
+        var intervaloDeTeste = setInterval(function(){
+            if (ws.readyState != 1){
+                clearInterval(intervaloDeTeste);
+            }else{
+                ws.send("{type:'ping'}");
+            }
+        },55000)
+    }
+
     // envia historico de mensagem pra quem se conecta 
     
     const historico = {
