@@ -27,18 +27,12 @@ wss.on("connection", function connection(ws) {
     wss.clients.forEach((cleinte) => {
       if (cleinte.readyState === WebSocket.OPEN) {
         // verifico se a conexão do cliente ainda é valida, assim não envio pra absolutamente todos, só pros ativos
-        if(dados !== String){
         cleinte.send(dados.toString());
 
         // para que a mensagem de "entrou no server não se matenha no historico". o ideial seria que a mensagem tivesse um tipo, tipo "msg do server" assim, não teria problema se o usuario digitasse exatamente essa
         if (dados.toString().includes("entrou na sala!")) return;
         mensagensHistorico.push(dados.toString());
       }
-    }else{
-      cleinte.send(dados);
-      
-      mensagensHistorico.push(dados);
-    }
     });
 
     console.log("mensagens no historico: " + mensagensHistorico);
