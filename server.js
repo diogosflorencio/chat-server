@@ -24,16 +24,19 @@ wss.on("connection", function connection(ws) {
       mensagensHistorico.length = 0;
       return;
     }
-    wss.clients.forEach((cleinte) => {
-      if (cleinte.readyState === WebSocket.OPEN) {
-        // verifico se a conexão do cliente ainda é valida, assim não envio pra absolutamente todos, só pros ativos
-        cleinte.send(dados.toString());
+    const texto = dados.toString();
 
-        // para que a mensagem de "entrou no server não se matenha no historico". o ideial seria que a mensagem tivesse um tipo, tipo "msg do server" assim, não teria problema se o usuario digitasse exatamente essa
-        if (dados.toString().includes("entrou na sala!")) return;
-        mensagensHistorico.push(dados.toString());
+    wss.clients.forEach((cliente) => {
+      if (cliente.readyState === WebSocket.OPEN) {
+        // verifico se a conexão do cliente ainda é valida, assim não envio pra absolutamente todos, só pros ativos
+        cliente.send(texto);
       }
     });
+
+    // para que a mensagem de "entrou no server não se matenha no historico". o ideial seria que a mensagem tivesse um tipo, tipo "msg do server" assim, não teria problema se o usuario digitasse exatamente essa
+    if (!texto.includes("entrou na sala!")) {
+      mensagensHistorico.push(texto);
+    }
 
     console.log("mensagens no historico: " + mensagensHistorico);
 
